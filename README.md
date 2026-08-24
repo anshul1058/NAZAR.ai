@@ -4,15 +4,7 @@
 
 Built for **CORE3D 2026 Hackathon** — 2nd Place winner.
 
----
 
-## Demo
-
-| Parent Dashboard | Child Monitoring | Detection Detail |
-|:----------------:|:----------------:|:----------------:|
-| ![Dashboard](assets/images/splash.png) | ![Child](assets/images/anak.png) | ![Detection](assets/images/onboarding1.png) |
-
----
 
 ## Architecture
 
