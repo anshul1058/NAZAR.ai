@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/anshul1058/periai_app/discussions
+    about: Ask, share ideas, or discuss things that aren't a bug/feature yet
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/anshul1058/periai_app/security/advisories/new
+    about: Report a security vulnerability privately

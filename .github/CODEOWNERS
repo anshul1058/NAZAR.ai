@@ -1,0 +1,24 @@
+# CODEOWNERS for PERISAI
+# https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Any PR touching files/folders below will automatically request a review
+# from the assigned owners.
+
+# Default — all files
+*                                       @anshul1058
+
+# Native Android (Kotlin) — fragile, needs expert
+/android/app/src/main/kotlin/           @anshul1058
+/android/app/src/main/AndroidManifest.xml  @anshul1058
+/android/app/build.gradle.kts           @anshul1058
+
+# Config & infra
+/.github/                               @anshul1058
+/.env.example                           @anshul1058
+/lib/core/config/                       @anshul1058
+
+# Rules & documentation
+/CLAUDE.md                              @anshul1058
+/CONTRIBUTING.md                        @anshul1058
+/SECURITY.md                            @anshul1058
+/docs/                                  @anshul1058

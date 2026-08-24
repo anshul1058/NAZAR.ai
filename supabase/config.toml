@@ -1,0 +1,8 @@
+# Supabase project config
+# Docs: https://supabase.com/docs/guides/cli/config
+#
+# project_id = project ref from the Supabase Dashboard (Settings → General).
+# Used by the Supabase CLI & GitHub Integration to know which project
+# is the migration target.
+
+project_id = "wnmgkllpafaqjhwkhecf"

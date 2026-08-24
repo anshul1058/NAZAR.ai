@@ -1,0 +1,50 @@
+name: ✨ Feature Request
+description: Propose a new feature
+title: "[FEAT] "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to Solve
+      description: What user pain point does this feature address?
+      placeholder: Parents struggle to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should the feature work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Other approaches you've thought about?
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority (in your opinion)
+      options:
+        - Low — nice to have
+        - Medium — improve UX
+        - High — blocker for certain use cases
+        - Critical — blocker for launch
+    validations:
+      required: true
+
+  - type: textarea
+    id: mockup
+    attributes:
+      label: Mockup / Reference (optional)
+      description: Drag & drop an image or Figma link
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context

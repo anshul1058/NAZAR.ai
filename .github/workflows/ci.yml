@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  analyze:
+    name: Analyze & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # .env is registered as an asset in pubspec, so it still needs to exist
+      # even though analyze doesn't read its contents. Use a safe stub so pubspec stays valid.
+      - name: Generate stub .env
+        run: |
+          echo "SUPABASE_URL=https://stub.supabase.co" > .env
+          echo "SUPABASE_ANON_KEY=stub-key-for-analyze-only" >> .env
+          echo "APP_ENV=ci" >> .env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+  test:
+    name: Unit & Widget Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate stub .env
+        run: |
+          echo "SUPABASE_URL=https://stub.supabase.co" > .env
+          echo "SUPABASE_ANON_KEY=stub-key-for-test-only" >> .env
+          echo "APP_ENV=ci" >> .env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Upload coverage
+        if: success()
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage/lcov.info
+          fail_ci_if_error: false
+
+  build-android:
+    name: Build Android (Debug)
+    runs-on: ubuntu-latest
+    needs: [analyze, test]
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # Generate .env from GitHub Secrets — APK build uses real values
+      # If the secret isn't set, fall back to the stub so the build still works
+      - name: Generate .env from secrets
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "SUPABASE_URL=${SUPABASE_URL:-https://stub.supabase.co}" > .env
+          echo "SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-stub-key}" >> .env
+          echo "APP_ENV=ci" >> .env
+          echo ".env generated (values redacted)"
+
+      # Override gradle.properties specifically for CI: local dev uses -Xmx1G to
+      # accommodate thin laptops, but the CI runner has 7GB RAM and needs to transform
+      # 3 ABIs at once, so -Xmx1G OOMs during JetifyTransform.
+      - name: Override Gradle heap for CI
+        run: |
+          sed -i 's|^org.gradle.jvmargs=.*|org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m -XX:+UseG1GC|' android/gradle.properties
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Native (Kotlin) reads secrets via BuildConfig from these env vars.
+      # Gradle secret() → System.getenv(). If empty, the build still works
+      # with empty strings (APK compiles fine, just not functional against the backend).
+      - name: Build debug APK
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          AI_SERVER_URL: ${{ secrets.AI_SERVER_URL }}
+        run: flutter build apk --debug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7

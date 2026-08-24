@@ -1,0 +1,110 @@
+name: nazar_ai
+description: AI-powered parental control app to detect online gambling content
+publish_to: 'none'
+version: 1.1.0+2
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Supabase
+  supabase_flutter: ^2.5.0
+
+  # Firebase
+  firebase_core: ^2.27.0
+  firebase_messaging: ^14.7.0
+
+  # State Management
+  flutter_riverpod: ^2.5.0
+
+  # Navigation
+  go_router: ^14.0.0
+
+  # QR Code
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^5.0.0
+
+  # Notifications
+  flutter_local_notifications: ^17.0.0
+
+  # Storage lokal
+  shared_preferences: ^2.2.0
+
+  image_picker: ^1.0.7
+
+  flutter_image_compress: ^2.1.0
+
+  # Permission
+  permission_handler: ^11.3.0
+
+  # Image
+  cached_network_image: ^3.3.0
+
+  # Format tanggal
+  intl: ^0.20.3
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  url_launcher: ^6.3.2
+
+  # Environment config (.env)
+  flutter_dotenv: ^5.1.0
+
+  # Lottie animations
+  lottie: ^3.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/images/maskot.png
+    - assets/images/splash.png
+    - assets/images/text_maskot.png
+    - assets/images/orangtua.png
+    - assets/images/anak.png
+    - assets/images/Onboarding1.png
+    - assets/images/Onboarding2.png
+    - assets/images/Onboarding3.png
+    - assets/images/app_icon.jpg
+    - assets/animations/loading_bar.json
+  fonts:
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-Regular.ttf
+        - asset: assets/fonts/PlayfairDisplay-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PlayfairDisplay-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/PlayfairDisplay-Black.ttf
+          weight: 900
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter-ExtraBold.ttf
+          weight: 800
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/app_icon.jpg"
+  adaptive_icon_background: "#1B140F"
+  adaptive_icon_foreground: "assets/images/app_icon.jpg"

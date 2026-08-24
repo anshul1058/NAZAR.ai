@@ -1,0 +1,76 @@
+name: 🐛 Bug Report
+description: Report a bug you found
+title: "[BUG] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Fill in as much detail as possible so we can fix it faster.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: What happened? What should have happened?
+      placeholder: When I tap button X, the app crashes...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: Step-by-step instructions to reproduce
+      placeholder: |
+        1. Open the app
+        2. Login as parent
+        3. Tap the dashboard tab
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshot / Recording
+      description: Drag & drop files here
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: App Mode
+      options:
+        - Parent
+        - Child
+        - Not logged in
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Phone / Device
+      placeholder: Samsung A52, Android 13
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: App Version
+      placeholder: 1.0.0+1
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log / Stack Trace
+      description: Output from `flutter run` or a crash report
+      render: shell
